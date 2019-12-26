@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BrainFuck
 {
-  internal sealed class InfiniArray<T>
+  public sealed class InfiniArray<T>
   {
     private const int SEG_LEN = 2048;
     private List<List<T>> data = new List<List<T>>();
@@ -28,5 +28,21 @@ namespace BrainFuck
     }
     
     public T this[long i]
+    {
+      get
+      {
+        EnsureIndex(i);
+        var seg = Convert.ToInt32(i/SEG_LEN);
+        var diff = Convert.ToInt32(i%SEG_LEN);
+        return data[seg][diff];
+      }
+      set
+      {
+        EnsureIndex(i);
+        var seg = Convert.ToInt32(i/SEG_LEN);
+        var diff = Convert.ToInt32(i%SEG_LEN);
+        data[seg][diff]=value;
+      }
+    }
   }
 }
