@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Collections.Generic;
 
 namespace BrainFuck
@@ -15,6 +17,9 @@ namespace BrainFuck
     
     public override void Execute(Stream input, Stream output)
     {
+      var read = new StreamReader(input);
+      var write = new StreamWriter(output);
+      write.AutoFlush = true;
       for(int pc = 0; pc < code.Length; pc++)
       {
         switch(code[pc])
@@ -32,10 +37,10 @@ namespace BrainFuck
             Data--;
             break;
           case '.':
-            output.WriteByte(Data);
+            write.Write((char)Data);
             break;
           case ',':
-            Data=(byte)input.ReadByte();
+            Data=(byte)read.Read();
             break;
           case '[':
             if(Data==0)
@@ -55,8 +60,12 @@ namespace BrainFuck
               }
             }
             break;
+          default:
+            break;
         }
+        write.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc}");
       }
+      write.WriteLine("End of Program");
     }
   }
 }
