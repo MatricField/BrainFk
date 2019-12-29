@@ -20,8 +20,10 @@ namespace BrainFuck
       var read = new StreamReader(input);
       var write = new StreamWriter(output);
       write.AutoFlush = true;
+      var stack = new Stack<int>();
       for(int pc = 0; pc < code.Length; pc++)
       {
+        write.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc} code:{code[pc]}");
         switch(code[pc])
         {
           case '>':
@@ -50,20 +52,26 @@ namespace BrainFuck
                 pc++;
               }
             }
+            else
+            {
+              stack.Push(pc+1);
+              write.WriteLine($"pushed {pc+1}");
+            }
             break;
           case ']':
             if(Data!=0)
             {
-              while(code[pc]!='[')
-              {
-                pc--;
-              }
+              pc = stack.Peek();
+            }
+            else
+            {
+              var x = stack.Pop();
+              write.WriteLine($"poped {x}");
             }
             break;
           default:
             break;
         }
-        write.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc}");
       }
       write.WriteLine("End of Program");
     }

@@ -4,7 +4,8 @@ namespace BrainFuck
 {
   abstract class BFVM1
   {
-    private readonly InfiniArray<byte> _data = new InfiniArray<byte>();
+    //private readonly InfiniArray<byte> _data = new InfiniArray<byte>();
+    private readonly byte[] _data = new byte[3000000];
     
     protected long DataPointer {get; set;}
     protected byte Data 
