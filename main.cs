@@ -6,7 +6,7 @@ class MainClass {
   
   public static void Main (string[] args) 
   {
-    var code = "+++[-]";
+    //var code = "+++[-]";
     var hello =@"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
     var program = new BFInterpreter(hello);
     program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());

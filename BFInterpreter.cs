@@ -23,7 +23,7 @@ namespace BrainFuck
       var stack = new Stack<int>();
       for(int pc = 0; pc < code.Length; pc++)
       {
-        write.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc} code:{code[pc]}");
+        Debug.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc} code:{code[pc]}");
         switch(code[pc])
         {
           case '>':
@@ -54,8 +54,9 @@ namespace BrainFuck
             }
             else
             {
-              stack.Push(pc+1);
-              write.WriteLine($"pushed {pc+1}");
+              //pc is incremented at the end; no +1 required
+              stack.Push(pc);
+              Debug.WriteLine($"pushed {pc+1}");
             }
             break;
           case ']':
@@ -66,14 +67,14 @@ namespace BrainFuck
             else
             {
               var x = stack.Pop();
-              write.WriteLine($"poped {x}");
+              Debug.WriteLine($"poped {x}");
             }
             break;
           default:
             break;
         }
       }
-      write.WriteLine("End of Program");
+      Debug.WriteLine("End of Program");
     }
   }
 }
