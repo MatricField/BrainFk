@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BrainFuck
 {
@@ -9,17 +10,41 @@ namespace BrainFuck
     {
         private string code;
 
+        private Dictionary<int, int> matchingRBracket = new Dictionary<int, int>();
+
+        private Dictionary<int, int> matchingLBracket = new Dictionary<int, int>();
+
+        protected HashSet<char> InstructionSet { get; } =
+            new HashSet<char>()
+            { '>', '<', '+','-','.',',','[',']'};
+
         public BFInterpreter(string code)
         {
-            this.code = code;
+            var cleanCode =
+                new string (code.Where(x => InstructionSet.Contains(x)).ToArray());
+
+            var stack = new Stack<int>();
+            var pc = 0;
+            foreach(var c in cleanCode)
+            {
+                switch(c)
+                {
+                    case '[':
+                        stack.Push(pc);
+                        break;
+                    case ']':
+                        var l = stack.Pop();
+                        matchingLBracket[pc] = l;
+                        matchingRBracket[l] = pc;
+                        break;
+                }
+                pc++;
+            }
+            this.code = cleanCode;
         }
 
         public override void Execute(Stream input, Stream output)
         {
-            var read = new StreamReader(input);
-            var write = new StreamWriter(output);
-            write.AutoFlush = true;
-            var stack = new Stack<int>();
             for (int pc = 0; pc < code.Length; pc++)
             {
                 Debug.WriteLine($"dp:{DataPointer} d:{Data} pc:{pc} code:{code[pc]}");
@@ -38,35 +63,22 @@ namespace BrainFuck
                         Data--;
                         break;
                     case '.':
-                        write.Write((char)Data);
+                        output.WriteByte(Data);
                         break;
                     case ',':
-                        Data = (byte)read.Read();
+                        var tmp = input.ReadByte();
+                        Data = -1 == tmp ? (byte)0 : (byte)tmp;
                         break;
                     case '[':
                         if (Data == 0)
                         {
-                            while (code[pc] != ']')
-                            {
-                                pc++;
-                            }
-                        }
-                        else
-                        {
-                            //pc is incremented at the end; no +1 required
-                            stack.Push(pc);
-                            Debug.WriteLine($"pushed {pc + 1}");
+                            pc = matchingRBracket[pc];
                         }
                         break;
                     case ']':
                         if (Data != 0)
                         {
-                            pc = stack.Peek();
-                        }
-                        else
-                        {
-                            var x = stack.Pop();
-                            Debug.WriteLine($"poped {x}");
+                            pc = matchingLBracket[pc];
                         }
                         break;
                     default:
