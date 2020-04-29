@@ -45,8 +45,16 @@ namespace BrainFuck.TestRunner
 
         static void Main(string[] args)
         {
-            HelloWorld();
-            BubbleSort();
+            //HelloWorld();
+            //BubbleSort();
+
+            const string programSource =
+                @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
+            var factory = BFCompiler1.Compile(programSource);
+            var program = factory.Create();
+            var gen = new Lokad.ILPack.AssemblyGenerator();
+            gen.GenerateAssembly(program.GetType().Assembly, @".\out.dll");
+            program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());
         }
     }
 }
