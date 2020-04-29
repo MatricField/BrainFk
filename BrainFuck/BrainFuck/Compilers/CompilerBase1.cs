@@ -1,13 +1,14 @@
-﻿using System;
+﻿using BrainFuck.VMs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using static System.Reflection.Emit.OpCodes;
 
-namespace BrainFuck
+namespace BrainFuck.Compilers
 {
-    public abstract class BFCompilerBase
+    public abstract class CompilerBase1
     {
         private static readonly AssemblyBuilder AsmBuilder;
 
@@ -31,7 +32,7 @@ namespace BrainFuck
 
         private static string MakeRandomNamePart() =>
             Guid.NewGuid().ToString("N");
-        static BFCompilerBase()
+        static CompilerBase1()
         {
             var asmName =
                 new AssemblyName("TempAsm" + MakeRandomNamePart());
@@ -47,19 +48,19 @@ namespace BrainFuck
         private readonly LocalBuilder LongTmp;
         private readonly LocalBuilder UintTmp;
 
-        public BFRunnerFactory Result { get; }
+        public RunnerFactory Result { get; }
 
-        public BFCompilerBase(string source):
+        public CompilerBase1(string source):
             this(source, "Program" + MakeRandomNamePart())
         {
 
         }
 
-        public BFCompilerBase(string source, string name)
+        public CompilerBase1(string source, string name)
         {
             var typeBuilder = ModuleBuilder.DefineType(name, TypeAttributes.Class | TypeAttributes.Public, typeof(BFVM1));
             var methodBuilder = typeBuilder.DefineMethod(
-                nameof(IBFRunner.Execute),
+                nameof(IRunner.Execute),
                 MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig,
                 typeof(void),
                 new[] { typeof(Stream), typeof(Stream) }
@@ -79,28 +80,28 @@ namespace BrainFuck
             {
                 switch(instruction)
                 {
-                    case BFInstructions.LShift:
+                    case Instructions.LShift:
                         InjectLShift();
                         break;
-                    case BFInstructions.RShift:
+                    case Instructions.RShift:
                         InjectRShift();
                         break;
-                    case BFInstructions.Inc:
+                    case Instructions.Inc:
                         InjectInc();
                         break;
-                    case BFInstructions.Dec:
+                    case Instructions.Dec:
                         InjectDec();
                         break;
-                    case BFInstructions.Read:
+                    case Instructions.Read:
                         InjectRead();
                         break;
-                    case BFInstructions.Write:
+                    case Instructions.Write:
                         InjectWrite();
                         break;
-                    case BFInstructions.LBracket:
+                    case Instructions.LBracket:
                         InjectLBracket();
                         break;
-                    case BFInstructions.RBracket:
+                    case Instructions.RBracket:
                         InjectRBracket();
                         break;
                     default:
@@ -109,10 +110,10 @@ namespace BrainFuck
             }
             IL.Emit(Ret);
             var type = typeBuilder.CreateType();
-            Result = new BFRunnerFactory(type);
+            Result = new RunnerFactory(type);
         }
 
-        protected abstract IEnumerable<BFInstructions> Preprocess(string source);
+        protected abstract IEnumerable<Instructions> Preprocess(string source);
 
         private void InjectLShift()
         {

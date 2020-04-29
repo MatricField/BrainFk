@@ -1,11 +1,9 @@
-using System;
+using BrainFuck.Misc;
 using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
-namespace BrainFuck
+namespace BrainFuck.VMs
 {
-    public abstract class BFVM1 : IBFRunner
+    public abstract class BFVM1 : IRunner
     {
         private readonly InfiniArray<byte> _data = new InfiniArray<byte>();
 

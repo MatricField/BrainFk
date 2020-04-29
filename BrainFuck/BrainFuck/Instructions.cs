@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BrainFuck
 {
-    public enum BFInstructions
+    public enum Instructions
     {
         LShift,
         RShift,

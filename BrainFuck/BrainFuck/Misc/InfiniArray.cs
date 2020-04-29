@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace BrainFuck
+namespace BrainFuck.Misc
 {
     sealed class InfiniArray<T>
     {

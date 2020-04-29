@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static BrainFuck.BFInstructions;
+using static BrainFuck.Instructions;
 
-namespace BrainFuck
+namespace BrainFuck.Compilers
 {
-    public sealed class BFCompiler1 :
-        BFCompilerBase
+    public sealed class Compiler1 :
+        CompilerBase1
     {
-        private BFCompiler1(string source) : base(source)
+        private Compiler1(string source) : base(source)
         {
         }
 
-        private BFCompiler1(string source, string name) : base(source, name)
+        private Compiler1(string source, string name) : base(source, name)
         {
         }
 
-        protected override IEnumerable<BFInstructions> Preprocess(string source)
+        protected override IEnumerable<Instructions> Preprocess(string source)
         {
             foreach(var c in source)
             {
@@ -52,10 +52,10 @@ namespace BrainFuck
             }
         }
 
-        public static BFRunnerFactory Compile(string source) =>
-            new BFCompiler1(source).Result;
+        public static RunnerFactory Compile(string source) =>
+            new Compiler1(source).Result;
 
-        public static BFRunnerFactory Compile(string source, string typeName) =>
-            new BFCompiler1(source, typeName).Result;
+        public static RunnerFactory Compile(string source, string typeName) =>
+            new Compiler1(source, typeName).Result;
     }
 }

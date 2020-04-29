@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using BrainFuck;
+using BrainFuck.Compilers;
+using BrainFuck.Interpreters;
 
 namespace BrainFuck.TestRunner
 {
@@ -13,7 +12,7 @@ namespace BrainFuck.TestRunner
         {
             const string sortting =
                 ">>>>>,+[>>>,+]<<<[<<<[>>>[-<<< -< +>[>] >>] <<<[<] >>[>>> +<<< -] <[> +>>> +<<<< -]<<] >>>[-.[-]] >>>[>>>] <<<]";
-            var program = new BFInterpreter(sortting);
+            var program = new Interpreter1(sortting);
 
             var rand = new Random();
             var input = Enumerable.Repeat(0, 3).Select(_ => rand.Next(0, 50));
@@ -39,7 +38,7 @@ namespace BrainFuck.TestRunner
         {
             const string HELLO_WORLD_PROGRAM =
                 @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-            var program = new BFInterpreter(HELLO_WORLD_PROGRAM);
+            var program = new Interpreter1(HELLO_WORLD_PROGRAM);
             program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());
         }
 
@@ -49,8 +48,8 @@ namespace BrainFuck.TestRunner
             //BubbleSort();
 
             const string programSource =
-                @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-            var factory = BFCompiler1.Compile(programSource);
+                ">>>>>,+[>>>,+]<<<[<<<[>>>[-<<< -< +>[>] >>] <<<[<] >>[>>> +<<< -] <[> +>>> +<<<< -]<<] >>>[-.[-]] >>>[>>>] <<<]";
+            var factory = Compiler1.Compile(programSource);
             var program = factory.Create();
             var gen = new Lokad.ILPack.AssemblyGenerator();
             gen.GenerateAssembly(program.GetType().Assembly, @".\out.dll");

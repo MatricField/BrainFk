@@ -2,10 +2,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using BrainFuck.VMs;
 
-namespace BrainFuck
+namespace BrainFuck.Interpreters
 {
-    public class BFInterpreter :
+    public class Interpreter1 :
       BFVM1
     {
         private string code;
@@ -18,7 +19,7 @@ namespace BrainFuck
             new HashSet<char>()
             { '>', '<', '+','-','.',',','[',']'};
 
-        public BFInterpreter(string code)
+        public Interpreter1(string code)
         {
             var cleanCode =
                 new string (code.Where(x => InstructionSet.Contains(x)).ToArray());

@@ -2,22 +2,22 @@
 
 namespace BrainFuck
 {
-    public sealed class BFRunnerFactory
+    public sealed class RunnerFactory
     {
         private readonly Type type;
 
-        public BFRunnerFactory(Type type)
+        public RunnerFactory(Type type)
         {
-            if(!typeof(IBFRunner).IsAssignableFrom(type))
+            if(!typeof(IRunner).IsAssignableFrom(type))
             {
                 throw new ArgumentException();
             }
             this.type = type;
         }
 
-        public IBFRunner Create()
+        public IRunner Create()
         {
-            return (IBFRunner)Activator.CreateInstance(type);
+            return (IRunner)Activator.CreateInstance(type);
         }
     }
 }

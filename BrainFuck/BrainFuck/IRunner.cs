@@ -2,7 +2,7 @@
 
 namespace BrainFuck
 {
-    public interface IBFRunner
+    public interface IRunner
     {
         void Execute(Stream input, Stream output);
     }
