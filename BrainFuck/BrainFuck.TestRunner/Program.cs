@@ -13,7 +13,7 @@ namespace BrainFuck.TestRunner
         static void BubbleSort()
         {
             var rand = new Random();
-            var input = Enumerable.Repeat(0, 1000).Select(_ => rand.Next(0, byte.MaxValue - 1));
+            var input = Enumerable.Repeat(0, 100).Select(_ => rand.Next(0, byte.MaxValue - 1));
             var instream = new MemoryStream();
             foreach (var x in input)
             {

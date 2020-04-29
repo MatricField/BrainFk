@@ -169,23 +169,19 @@ namespace BrainFuck.Compilers
 
         private void InjectRead()
         {
-            var lbEq = IL.DefineLabel();
             var lbEndif = IL.DefineLabel();
             IL.Emit(Ldarg_1);
             IL.Emit(Callvirt, ReadByte);
             IL.Emit(Stloc, IntTmp);
 
-            IL.Emit(Ldarg_0);
             IL.Emit(Ldc_I4_M1);
             IL.Emit(Ldloc, IntTmp);
-            IL.Emit(Beq, lbEq);
+            IL.Emit(Beq, lbEndif);
+            IL.Emit(Ldarg_0);
             IL.Emit(Ldloc, IntTmp);
             IL.Emit(Conv_U1);
-            IL.Emit(Br, lbEndif);
-            IL.MarkLabel(lbEq);
-            IL.Emit(Ldc_I4_0);
-            IL.MarkLabel(lbEndif);
             IL.Emit(Call, DataSet);
+            IL.MarkLabel(lbEndif);
         }
 
         private void InjectWrite()
