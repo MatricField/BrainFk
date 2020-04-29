@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BrainFuck.Compilers;
 using BrainFuck.Interpreters;
+using Lokad.ILPack;
 
 namespace BrainFuck.TestRunner
 {
@@ -10,23 +12,29 @@ namespace BrainFuck.TestRunner
     {
         static void BubbleSort()
         {
-            const string sortting =
-                ">>>>>,+[>>>,+]<<<[<<<[>>>[-<<< -< +>[>] >>] <<<[<] >>[>>> +<<< -] <[> +>>> +<<<< -]<<] >>>[-.[-]] >>>[>>>] <<<]";
-            var program = new Interpreter1(sortting);
-
             var rand = new Random();
-            var input = Enumerable.Repeat(0, 3).Select(_ => rand.Next(0, 50));
+            var input = Enumerable.Repeat(0, 1000).Select(_ => rand.Next(0, byte.MaxValue - 1));
             var instream = new MemoryStream();
             foreach (var x in input)
             {
-                Console.Write($"{x}; ");
-                instream.WriteByte(Convert.ToByte(x));
+                instream.WriteByte((byte)x);
             }
+            foreach (var x in input.Take(50))
+            {
+                Console.Write($"{x}; ");
+            }
+
             instream.Position = 0;
+
+            Console.WriteLine();
+
             var outstream = new MemoryStream();
+
+            var program = Compiler1.Compile(AppResource.BSort).Create();
             program.Execute(instream, outstream);
+
             outstream.Position = 0;
-            var output = new ReadOnlySpan<byte>(outstream.GetBuffer()).Slice(Convert.ToInt32(outstream.Length));
+            var output = new ReadOnlySpan<byte>(outstream.GetBuffer()).Slice(0, Convert.ToInt32(50));
             Console.WriteLine();
             foreach(var x in output)
             {
@@ -36,24 +44,30 @@ namespace BrainFuck.TestRunner
 
         static void HelloWorld()
         {
-            const string HELLO_WORLD_PROGRAM =
-                @"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.";
-            var program = new Interpreter1(HELLO_WORLD_PROGRAM);
+            var program = Compiler1.Compile(AppResource.HelloWorld).Create();
             program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());
+        }
+
+        static void Translate()
+        {
+            var program = Compiler1.Compile(AppResource.dbf2c).Create();
+            var memStream = new MemoryStream();
+            var writer = new StreamWriter(memStream);
+            writer.Write(AppResource.dbf2c);
+            writer.Flush();
+            memStream.Position = 0;
+            program.Execute(memStream, Console.OpenStandardOutput());
         }
 
         static void Main(string[] args)
         {
-            //HelloWorld();
-            //BubbleSort();
-
-            const string programSource =
-                ">>>>>,+[>>>,+]<<<[<<<[>>>[-<<< -< +>[>] >>] <<<[<] >>[>>> +<<< -] <[> +>>> +<<<< -]<<] >>>[-.[-]] >>>[>>>] <<<]";
-            var factory = Compiler1.Compile(programSource);
-            var program = factory.Create();
-            var gen = new Lokad.ILPack.AssemblyGenerator();
-            gen.GenerateAssembly(program.GetType().Assembly, @".\out.dll");
-            program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());
+            HelloWorld();
+            Console.WriteLine();
+            BubbleSort();
+            Console.WriteLine();
+            Translate();
+            var gen = new AssemblyGenerator();
+            gen.GenerateAssembly(Compiler1.Compile("").Create().GetType().Assembly, @".\out.dll");
         }
     }
 }
