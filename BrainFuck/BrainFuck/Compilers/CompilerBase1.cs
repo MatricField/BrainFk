@@ -152,7 +152,6 @@ namespace BrainFuck.Compilers
             IL.Emit(Ldloc, UintTmp);
             IL.Emit(Ldc_I4_1);
             IL.Emit(Add);
-            IL.Emit(Conv_U1);
             IL.Emit(Call, DataSet);
         }
 
@@ -165,13 +164,11 @@ namespace BrainFuck.Compilers
             IL.Emit(Ldloc, UintTmp);
             IL.Emit(Ldc_I4_1);
             IL.Emit(Sub);
-            IL.Emit(Conv_U1);
             IL.Emit(Call, DataSet);
         }
 
         private void InjectRead()
         {
-            var lbIfTrue = IL.DefineLabel();
             var lbEndif = IL.DefineLabel();
             IL.Emit(Ldarg_1);
             IL.Emit(Callvirt, ReadByte);
@@ -179,16 +176,9 @@ namespace BrainFuck.Compilers
 
             IL.Emit(Ldc_I4_M1);
             IL.Emit(Ldloc, IntTmp);
-            IL.Emit(Beq, lbIfTrue);
+            IL.Emit(Beq, lbEndif);
             IL.Emit(Ldarg_0);
             IL.Emit(Ldloc, IntTmp);
-            IL.Emit(Conv_U1);
-            IL.Emit(Call, DataSet);
-            IL.Emit(Br, lbEndif);
-            IL.MarkLabel(lbIfTrue);
-            IL.Emit(Ldarg_0);
-            IL.Emit(Ldc_I4_0);
-            IL.Emit(Conv_U1);
             IL.Emit(Call, DataSet);
             IL.MarkLabel(lbEndif);
         }
@@ -209,7 +199,6 @@ namespace BrainFuck.Compilers
             RBracketStack.Push(lbAfterEnd);
             IL.MarkLabel(lbBeforeBegin);
             IL.Emit(Ldc_I4_0);
-            IL.Emit(Conv_U1);
             IL.Emit(Ldarg_0);
             IL.Emit(Call, DataGet);
             IL.Emit(Beq, lbAfterEnd);
