@@ -25,14 +25,18 @@ namespace BrainFuck.TestRunner
         {
             var program = Compiler1.Compile(AppResource.tests).Create();
             var istream = new MemoryStream();
-            var writer = new StreamWriter(istream, Encoding.ASCII);
+            var writer = new StreamWriter(istream, Encoding.ASCII)
+            {
+                AutoFlush = true
+            };
             writer.Write("\n");
+            istream.Seek(0, SeekOrigin.Begin);
             program.Execute(istream, Console.OpenStandardOutput());
         }
 
         static void Main(string[] args)
         {
-            Translate();
+            //Translate();
             Test();
             var gen = new AssemblyGenerator();
             gen.GenerateAssembly(CompilerBase1.GeneratedAssembly, @".\out.dll");

@@ -82,17 +82,7 @@ namespace BrainFuck.TestRunner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here are some little programs for testing brainfuck implementations.
-        ///
-        ///
-        ///&gt;,&gt;+++++++++,&gt;+++++++++++[&lt;++++++&lt;++++++&lt;+&gt;&gt;&gt;-]&lt;&lt;.&gt;.&lt;&lt;-.&gt;.&gt;.&lt;&lt;.
-        ///This is for testing i/o; give it a return followed by an EOF. (Try it both
-        ///with file input--a file consisting only of one blank line--and with
-        ///keyboard input, i.e. hit return and then ctrl-d (Unix) or ctrl-z
-        ///(Windows).)
-        ///It should give two lines of output; the two lines should be identical, and
-        ///should be lined up one over the other. If that doesn&apos;t happen, ten is not
-        ///coming t [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &gt;,&gt;+++++++++,&gt;+++++++++++[&lt;++++++&lt;++++++&lt;+&gt;&gt;&gt;-]&lt;&lt;.&gt;.&lt;&lt;-.&gt;.&gt;.&lt;&lt;..
         /// </summary>
         internal static string tests {
             get {
