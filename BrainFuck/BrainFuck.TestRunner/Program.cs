@@ -10,44 +10,6 @@ namespace BrainFuck.TestRunner
 {
     class Program
     {
-        static void BubbleSort()
-        {
-            var rand = new Random();
-            var input = Enumerable.Repeat(0, 100).Select(_ => rand.Next(0, byte.MaxValue - 1));
-            var instream = new MemoryStream();
-            foreach (var x in input)
-            {
-                instream.WriteByte((byte)x);
-            }
-            foreach (var x in input.Take(50))
-            {
-                Console.Write($"{x}; ");
-            }
-
-            instream.Position = 0;
-
-            Console.WriteLine();
-
-            var outstream = new MemoryStream();
-
-            var program = Compiler1.Compile(AppResource.BSort).Create();
-            program.Execute(instream, outstream);
-
-            outstream.Position = 0;
-            var output = new ReadOnlySpan<byte>(outstream.GetBuffer()).Slice(0, Convert.ToInt32(50));
-            Console.WriteLine();
-            foreach(var x in output)
-            {
-                Console.Write($"{x}; ");
-            }
-        }
-
-        static void HelloWorld()
-        {
-            var program = Compiler1.Compile(AppResource.HelloWorld).Create();
-            program.Execute(Console.OpenStandardInput(), Console.OpenStandardOutput());
-        }
-
         static void Translate()
         {
             var program = Compiler1.Compile(AppResource.dbf2c).Create();
@@ -59,15 +21,21 @@ namespace BrainFuck.TestRunner
             program.Execute(memStream, Console.OpenStandardOutput());
         }
 
+        static void Test()
+        {
+            var program = Compiler1.Compile(AppResource.tests).Create();
+            var istream = new MemoryStream();
+            var writer = new StreamWriter(istream, Encoding.ASCII);
+            writer.Write("\n");
+            program.Execute(istream, Console.OpenStandardOutput());
+        }
+
         static void Main(string[] args)
         {
-            HelloWorld();
-            Console.WriteLine();
-            BubbleSort();
-            Console.WriteLine();
             Translate();
+            Test();
             var gen = new AssemblyGenerator();
-            gen.GenerateAssembly(Compiler1.Compile("").Create().GetType().Assembly, @".\out.dll");
+            gen.GenerateAssembly(CompilerBase1.GeneratedAssembly, @".\out.dll");
         }
     }
 }

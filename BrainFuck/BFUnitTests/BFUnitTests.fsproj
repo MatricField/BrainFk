@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Include="BFPrograms\bsort.bf" />
-    <None Include="BFPrograms\dbf2c.b" />
     <None Include="BFPrograms\HelloWorld.bf" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />

@@ -61,28 +61,6 @@ namespace BrainFuck.TestRunner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [bsort.b -- bubble sort
-        ///(c) 2016 Daniel B. Cristofani
-        ///http://brainfuck.org/]
-        ///
-        ///&gt;&gt;,[&gt;&gt;,]&lt;&lt;[
-        ///[&lt;&lt;]&gt;&gt;&gt;&gt;[
-        ///&lt;&lt;[&gt;+&lt;&lt;+&gt;-]
-        ///&gt;&gt;[&gt;+&lt;&lt;&lt;&lt;[-&gt;]&gt;[&lt;]&gt;&gt;-]
-        ///&lt;&lt;&lt;[[-]&gt;&gt;[&gt;+&lt;-]&gt;&gt;[&lt;&lt;&lt;+&gt;&gt;&gt;-]]
-        ///&gt;&gt;[[&lt;+&gt;-]&gt;&gt;]&lt;
-        ///]&lt;&lt;[&gt;&gt;+&lt;&lt;-]&lt;&lt;
-        ///]&gt;&gt;&gt;&gt;[.&gt;&gt;]
-        ///
-        ///[This program sorts the bytes of its input by bubble sort.].
-        /// </summary>
-        internal static string BSort {
-            get {
-                return ResourceManager.GetString("BSort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to +++[&gt;+++++&lt;-]&gt;&gt;+&lt;[&gt;&gt;++++&gt;++&gt;+++++&gt;+++++&gt;+&gt;&gt;+&lt;++[++&lt;]&gt;---]
         ///
         ///&gt;++++.&gt;&gt;&gt;.+++++.&gt;------.&lt;--.+++++++++.&gt;+.+.&lt;&lt;&lt;&lt;---.[&gt;]&lt;&lt;.&lt;&lt;&lt;.-------.&gt;++++.
@@ -104,19 +82,21 @@ namespace BrainFuck.TestRunner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [ This program prints &quot;Hello World!&quot; and a newline to the screen, its
-        ///  length is 106 active command characters. [It is not the shortest.]
+        ///   Looks up a localized string similar to Here are some little programs for testing brainfuck implementations.
         ///
-        ///  This loop is an &quot;initial comment loop&quot;, a simple way of adding a comment
-        ///  to a BF program such that you don&apos;t have to worry about any command
-        ///  characters. Any &quot;.&quot;, &quot;,&quot;, &quot;+&quot;, &quot;-&quot;, &quot;&lt;&quot; and &quot;&gt;&quot; characters are simply
-        ///  ignored, the &quot;[&quot; and &quot;]&quot; characters just have to be balanced. This
-        ///  loop and the commands it contains are ignored because the current cell
-        ///  def [rest of string was truncated]&quot;;.
+        ///
+        ///&gt;,&gt;+++++++++,&gt;+++++++++++[&lt;++++++&lt;++++++&lt;+&gt;&gt;&gt;-]&lt;&lt;.&gt;.&lt;&lt;-.&gt;.&gt;.&lt;&lt;.
+        ///This is for testing i/o; give it a return followed by an EOF. (Try it both
+        ///with file input--a file consisting only of one blank line--and with
+        ///keyboard input, i.e. hit return and then ctrl-d (Unix) or ctrl-z
+        ///(Windows).)
+        ///It should give two lines of output; the two lines should be identical, and
+        ///should be lined up one over the other. If that doesn&apos;t happen, ten is not
+        ///coming t [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string HelloWorld {
+        internal static string tests {
             get {
-                return ResourceManager.GetString("HelloWorld", resourceCulture);
+                return ResourceManager.GetString("tests", resourceCulture);
             }
         }
     }

@@ -121,9 +121,6 @@
   <data name="BSort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>BFPrograms\bsort.bf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="dbf2c" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bfprograms\dbf2c.b;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="HelloWorld" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>BFPrograms\HelloWorld.bf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

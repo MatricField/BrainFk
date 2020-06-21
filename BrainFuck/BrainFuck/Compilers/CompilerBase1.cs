@@ -12,6 +12,8 @@ namespace BrainFuck.Compilers
     {
         private static readonly AssemblyBuilder AsmBuilder;
 
+        public static Assembly GeneratedAssembly => AsmBuilder;
+
         private static readonly ModuleBuilder ModuleBuilder;
 
         private static readonly MethodInfo DataPointerGet =
